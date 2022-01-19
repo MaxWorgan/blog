@@ -1,11 +1,9 @@
 ---
 layout: page
-title: About Me
+title: about
 permalink: /about/
 ---
 
-This website is powered by **[fastpages](https://github.com/fastai/fastpages)** [^1].
+Max Worgan is a PhD candidate at [Sussex University](https://www.sussex.ac.uk/), UK.
 
-
-
-[^1]:a blogging platform that natively supports Jupyter notebooks in addition to other formats.
+His research interests include, computer music, machine learning, and complex dynamical systems.
