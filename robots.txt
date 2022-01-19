@@ -1,1 +1,1 @@
-Sitemap: https://maxworgan.github.io/swarm-site/sitemap.xml
+Sitemap: https://maxworgan.github.io/blog/sitemap.xml
