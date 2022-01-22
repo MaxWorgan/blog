@@ -4,21 +4,22 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.7.1 -->
-<title>Start | Max Worgan’s PhD research blog</title>
+<title>DCAE | Max Worgan’s PhD research blog</title>
 <meta name="generator" content="Jekyll v4.1.1" />
-<meta property="og:title" content="Start" />
+<meta property="og:title" content="DCAE" />
+<meta name="author" content="Max Worgan" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="A place to hold research and notebooks" />
-<meta property="og:description" content="A place to hold research and notebooks" />
-<link rel="canonical" href="https://maxworgan.github.io/blog/2022/01/21/DCAE.html" />
-<meta property="og:url" content="https://maxworgan.github.io/blog/2022/01/21/DCAE.html" />
+<meta name="description" content="Reimplementing the DCAE" />
+<meta property="og:description" content="Reimplementing the DCAE" />
+<link rel="canonical" href="https://maxworgan.github.io/blog/dimension%20reduction/auto-encoder/swarm/2022/01/21/DCAE.html" />
+<meta property="og:url" content="https://maxworgan.github.io/blog/dimension%20reduction/auto-encoder/swarm/2022/01/21/DCAE.html" />
 <meta property="og:site_name" content="Max Worgan’s PhD research blog" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2022-01-21T00:00:00-06:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Start" />
+<meta property="twitter:title" content="DCAE" />
 <script type="application/ld+json">
-{"url":"https://maxworgan.github.io/blog/2022/01/21/DCAE.html","@type":"BlogPosting","headline":"Start","dateModified":"2022-01-21T00:00:00-06:00","datePublished":"2022-01-21T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://maxworgan.github.io/blog/2022/01/21/DCAE.html"},"description":"A place to hold research and notebooks","@context":"https://schema.org"}</script>
+{"url":"https://maxworgan.github.io/blog/dimension%20reduction/auto-encoder/swarm/2022/01/21/DCAE.html","@type":"BlogPosting","headline":"DCAE","dateModified":"2022-01-21T00:00:00-06:00","datePublished":"2022-01-21T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://maxworgan.github.io/blog/dimension%20reduction/auto-encoder/swarm/2022/01/21/DCAE.html"},"author":{"@type":"Person","name":"Max Worgan"},"description":"Reimplementing the DCAE","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://maxworgan.github.io/blog/feed.xml" title="Max Worgan's PhD research blog" /><link rel="shortcut icon" type="image/x-icon" href="/blog/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
@@ -73,9 +74,11 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Start</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-01-21T00:00:00-06:00" itemprop="datePublished">
+    <h1 class="post-title p-name" itemprop="name headline">DCAE</h1><p class="page-description">Reimplementing the DCAE</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-01-21T00:00:00-06:00" itemprop="datePublished">
         Jan 21, 2022
-      </time>
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Max Worgan</span></span>
        • <span class="read-time" title="Estimated read time">
     
     
@@ -83,6 +86,19 @@ window.onload = wrap_img;
     
 </span></p>
 
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/blog/categories/#dimension reduction">dimension reduction</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#auto-encoder">auto-encoder</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#swarm">swarm</a>
+        
+      
+      </p>
     
 
     
@@ -111,7 +127,16 @@ window.onload = wrap_img;
       </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <!--
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h1"><a href="#Start">Start </a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#Details">Details </a></li>
+<li class="toc-entry toc-h2"><a href="#Data-Noramlisation-and-preperation">Data Noramlisation and preperation </a></li>
+<li class="toc-entry toc-h2"><a href="#Define-the-encoder-and-decoder">Define the encoder and decoder </a></li>
+<li class="toc-entry toc-h2"><a href="#Training">Training </a></li>
+</ul>
+</li>
+</ul><!--
 #################################################
 ### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
 #################################################
@@ -120,42 +145,37 @@ window.onload = wrap_img;
 
 <div class="container" id="notebook-container">
         
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-julia"><pre><span></span><span class="o">&gt;</span> <span class="s">&quot;Reimplementing the DCAE&quot;</span>
-
-<span class="o">-</span> <span class="n">toc</span><span class="o">:</span> <span class="kc">true</span>
-<span class="o">-</span> <span class="n">branch</span><span class="o">:</span> <span class="n">master</span>
-<span class="o">-</span> <span class="n">badges</span><span class="o">:</span> <span class="kc">true</span>
-<span class="o">-</span> <span class="n">comments</span><span class="o">:</span> <span class="kc">true</span>
-<span class="o">-</span> <span class="n">author</span><span class="o">:</span> <span class="n">Max</span> <span class="n">Worgan</span>
-<span class="o">-</span> <span class="n">categories</span><span class="o">:</span> <span class="p">[</span><span class="n">dimension</span> <span class="n">reduction</span><span class="p">,</span> <span class="n">auto</span><span class="o">-</span><span class="n">encoder</span><span class="p">,</span> <span class="n">swarm</span><span class="p">]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Details">Details<a class="anchor-link" href="#Details"> </a></h2><p>Their approach uses 1D Convolution and the data split into interleaved sliding windows of data:</p>
+<h1 id="Start">
+<a class="anchor" href="#Start" aria-hidden="true"><span class="octicon octicon-link"></span></a>Start<a class="anchor-link" href="#Start"> </a>
+</h1>
+<p>My aim is to try and encode a simulated swarm into a lower dimentional representation so I can identify interesting parameters with which to map into a sound generating system.</p>
+<p>My initial research into reducing complex time-series data lead me to a paper by <a href="http://cs.swan.ac.uk/~csmark/publications/2019_TimeCluster.html">Ali et al</a></p>
+<p>They use convolutional layers in an auto encoder to do dimension reduction on various time series data.</p>
+<p>This seemed like a good place to start, so initially I am just documenting my attempt to recreate their research, using a single agents coordinates in 3d space to match the shape of their experimental data.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Details">
+<a class="anchor" href="#Details" aria-hidden="true"><span class="octicon octicon-link"></span></a>Details<a class="anchor-link" href="#Details"> </a>
+</h2>
+<p>Their approach uses 1D Convolution and the data split into interleaved sliding windows of data:</p>
 <div>
 <figure>
   
-    <img class="docimage" src="/blog/images/copied_from_nb/images/TimeCluster.png" alt="" style="max-width: 400px" />
+    <img class="docimage" src="/blog/images/copied_from_nb/images/TimeCluster.png" alt="" style="max-width: 400px">
     
     
 </figure>
 
-</div><p>They used a 60 frame window and 3 readings from accelerometers resulting in a 60x3 shape input image.</p>
+</div>
+<p>They used a 60 frame window and 3 readings from accelerometers resulting in a 60x3 shape input image.</p>
 <p>As a test of their approach I used a single agents movement data to match the original model specifications.</p>
 <p>Data is captured from a separate flocking simulation (source available on my github soon) of 300 agents over approximately 30 seconds.</p>
 
@@ -169,7 +189,7 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-julia"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">CSV</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="s">&quot;</span><span class="si">$</span><span class="p">(</span><span class="n">datadir</span><span class="p">())</span><span class="s">/exp_raw/data.csv&quot;</span><span class="p">;</span>  <span class="n">header</span><span class="o">=</span><span class="p">[</span><span class="s">&quot;x&quot;</span><span class="p">,</span><span class="s">&quot;y&quot;</span><span class="p">,</span><span class="s">&quot;z&quot;</span><span class="p">],</span> <span class="n">types</span><span class="o">=</span><span class="kt">Float32</span><span class="p">))</span>
+<div class=" highlight hl-julia"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">CSV</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="s">"</span><span class="si">$</span><span class="p">(</span><span class="n">datadir</span><span class="p">())</span><span class="s">/exp_raw/data.csv"</span><span class="p">;</span>  <span class="n">header</span><span class="o">=</span><span class="p">[</span><span class="s">"x"</span><span class="p">,</span><span class="s">"y"</span><span class="p">,</span><span class="s">"z"</span><span class="p">],</span> <span class="n">types</span><span class="o">=</span><span class="kt">Float32</span><span class="p">))</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="o">:</span><span class="mi">3</span><span class="p">]</span> <span class="c"># just use the first 3 cols - i.e. x,y,z of first agent</span>
 <span class="nd">@df</span> <span class="n">df</span> <span class="n">StatsPlots</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cols</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">cols</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">cols</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
 </pre></div>
@@ -184,7 +204,7 @@ window.onload = wrap_img;
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>┌ Warning: thread = 1 warning: parsed expected 3 columns, but didn&#39;t reach end of line around data row: 1. Parsing extra columns and widening final columnset
+<pre>┌ Warning: thread = 1 warning: parsed expected 3 columns, but didn't reach end of line around data row: 1. Parsing extra columns and widening final columnset
 └ @ CSV /Users/max/.julia/packages/CSV/nofYz/src/file.jl:635
 </pre>
 </div>
@@ -10799,7 +10819,8 @@ window.onload = wrap_img;
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can treat this 3D data as 3 separate 1D data points, matching the original TimeCluster data shape</p>
 
@@ -31782,9 +31803,13 @@ window.onload = wrap_img;
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Data-Noramlisation-and-preperation">Data Noramlisation and preperation<a class="anchor-link" href="#Data-Noramlisation-and-preperation"> </a></h2><p>Normalise the data into the range [0, 1] as per the paper.
+<h2 id="Data-Noramlisation-and-preperation">
+<a class="anchor" href="#Data-Noramlisation-and-preperation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Data Noramlisation and preperation<a class="anchor-link" href="#Data-Noramlisation-and-preperation"> </a>
+</h2>
+<p>Normalise the data into the range [0, 1] as per the paper.
 We then create a sliding window using the defaults from the paper where stride = 1 and window_size = 60</p>
 
 </div>
@@ -31807,7 +31832,7 @@ We then create a sliding window using the defaults from the paper where stride =
 
 <span class="n">window_size</span> <span class="o">=</span> <span class="mi">60</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">slidingwindow</span><span class="p">(</span><span class="n">normalised</span><span class="o">&#39;</span><span class="p">,</span><span class="n">window_size</span><span class="p">,</span><span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">slidingwindow</span><span class="p">(</span><span class="n">normalised</span><span class="o">'</span><span class="p">,</span><span class="n">window_size</span><span class="p">,</span><span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">);</span>
 </pre></div>
 
     </div>
@@ -31817,9 +31842,13 @@ We then create a sliding window using the defaults from the paper where stride =
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Define-the-encoder-and-decoder">Define the encoder and decoder<a class="anchor-link" href="#Define-the-encoder-and-decoder"> </a></h2><p>We create the auto-encoder network as per the paper</p>
+<h2 id="Define-the-encoder-and-decoder">
+<a class="anchor" href="#Define-the-encoder-and-decoder" aria-hidden="true"><span class="octicon octicon-link"></span></a>Define the encoder and decoder<a class="anchor-link" href="#Define-the-encoder-and-decoder"> </a>
+</h2>
+<p>We create the auto-encoder network as per the paper</p>
 
 </div>
 </div>
@@ -31888,9 +31917,13 @@ We then create a sliding window using the defaults from the paper where stride =
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Training">Training<a class="anchor-link" href="#Training"> </a></h2><p>In keeping with the paper we use the Mean Square Error loss function and the ADAM optimiser</p>
+<h2 id="Training">
+<a class="anchor" href="#Training" aria-hidden="true"><span class="octicon octicon-link"></span></a>Training<a class="anchor-link" href="#Training"> </a>
+</h2>
+<p>In keeping with the paper we use the Mean Square Error loss function and the ADAM optimiser</p>
 
 </div>
 </div>
@@ -31922,7 +31955,7 @@ We then create a sliding window using the defaults from the paper where stride =
         <span class="k">end</span>
         <span class="n">l</span> <span class="o">=</span> <span class="n">round</span><span class="p">(</span><span class="n">l</span><span class="p">;</span><span class="n">digits</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
         <span class="n">push!</span><span class="p">(</span><span class="n">losses</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
-        <span class="n">println</span><span class="p">(</span><span class="s">&quot;Epoch </span><span class="si">$e</span><span class="s">/</span><span class="si">$epochs</span><span class="s"> - train loss: </span><span class="si">$l</span><span class="s">&quot;</span><span class="p">)</span>
+        <span class="n">println</span><span class="p">(</span><span class="s">"Epoch </span><span class="si">$e</span><span class="s">/</span><span class="si">$epochs</span><span class="s"> - train loss: </span><span class="si">$l</span><span class="s">"</span><span class="p">)</span>
     <span class="k">end</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">model</span> <span class="o">|&gt;</span> <span class="n">cpu</span><span class="p">;</span>
     <span class="n">losses</span>
@@ -32002,6 +32035,7 @@ We then create a sliding window using the defaults from the paper where stride =
 <details class="description">
       <summary class="btn btn-sm" data-open="Hide Output" data-close="Show Output"></summary>
         <p>
+</p>
 <div class="output_wrapper">
 <div class="output">
 
@@ -32114,7 +32148,7 @@ Epoch 100/100 - train loss: 7.0e-6
 
 </div>
 </div>
-</p>
+
     </details>
 </div>
     
@@ -32127,8 +32161,8 @@ Epoch 100/100 - train loss: 7.0e-6
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-julia"><pre><span></span><span class="n">PlotlyJS</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-    <span class="n">PlotlyJS</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">losses_01</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="mi">80</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&quot;lines+markers&quot;</span><span class="p">)</span>
-<span class="p">,</span> <span class="n">Layout</span><span class="p">(</span><span class="n">xaxis_title</span><span class="o">=</span><span class="s">&quot;Epoch&quot;</span><span class="p">,</span> <span class="n">yaxis_title</span><span class="o">=</span><span class="s">&quot;Mean Squared Error&quot;</span><span class="p">))</span>
+    <span class="n">PlotlyJS</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">losses_01</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="mi">80</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">"lines+markers"</span><span class="p">)</span>
+<span class="p">,</span> <span class="n">Layout</span><span class="p">(</span><span class="n">xaxis_title</span><span class="o">=</span><span class="s">"Epoch"</span><span class="p">,</span> <span class="n">yaxis_title</span><span class="o">=</span><span class="s">"Mean Squared Error"</span><span class="p">))</span>
 </pre></div>
 
     </div>
@@ -32182,7 +32216,8 @@ Epoch 100/100 - train loss: 7.0e-6
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Lets see how well it's able to reconstruct a random segment of the data</p>
 
@@ -32197,15 +32232,15 @@ Epoch 100/100 - train loss: 7.0e-6
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-julia"><pre><span></span><span class="n">test</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="n">test_df</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">test</span><span class="o">&#39;</span><span class="p">,</span> <span class="o">:</span><span class="n">auto</span><span class="p">)</span>
-<span class="nd">@df</span> <span class="n">test_df</span> <span class="n">StatsPlots</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cols</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">cols</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">cols</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;input&quot;</span><span class="p">)</span>
+<span class="n">test_df</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">test</span><span class="o">'</span><span class="p">,</span> <span class="o">:</span><span class="n">auto</span><span class="p">)</span>
+<span class="nd">@df</span> <span class="n">test_df</span> <span class="n">StatsPlots</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cols</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">cols</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">cols</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s">"input"</span><span class="p">)</span>
 
 <span class="c"># Plot the reconstructed data in red</span>
-<span class="n">input</span> <span class="o">=</span> <span class="n">Flux</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">test</span><span class="o">&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">input</span> <span class="o">=</span> <span class="n">Flux</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">test</span><span class="o">'</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 <span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">input</span><span class="p">)</span>
-<span class="nd">@info</span> <span class="s">&quot;loss:&quot;</span> <span class="n">loss</span><span class="p">(</span><span class="n">input</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+<span class="nd">@info</span> <span class="s">"loss:"</span> <span class="n">loss</span><span class="p">(</span><span class="n">input</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
 <span class="n">output_df</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">reshape</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="p">(</span><span class="n">window_size</span><span class="p">,</span><span class="mi">3</span><span class="p">)),</span> <span class="o">:</span><span class="n">auto</span><span class="p">)</span>
-<span class="nd">@df</span> <span class="n">output_df</span> <span class="n">StatsPlots</span><span class="o">.</span><span class="n">plot!</span><span class="p">(</span><span class="n">cols</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">cols</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">cols</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;reconstructed&quot;</span><span class="p">)</span>
+<span class="nd">@df</span> <span class="n">output_df</span> <span class="n">StatsPlots</span><span class="o">.</span><span class="n">plot!</span><span class="p">(</span><span class="n">cols</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">cols</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">cols</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s">"reconstructed"</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -32869,7 +32904,15 @@ Epoch 100/100 - train loss: 7.0e-6
 
 
 
-  </div><a class="u-url" href="/blog/2022/01/21/DCAE.html" hidden></a>
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="MaxWorgan/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/blog/dimension%20reduction/auto-encoder/swarm/2022/01/21/DCAE.html" hidden></a>
 </article>
 
       </div>
