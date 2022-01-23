@@ -4,23 +4,22 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.7.1 -->
-<title>fastpages with Julia and plotly | Max Worgan’s PhD research blog</title>
+<title>Deep Convolutional Auto Encoders - Part 1 | Max Worgan’s PhD research blog</title>
 <meta name="generator" content="Jekyll v4.1.1" />
-<meta property="og:title" content="fastpages with Julia and plotly" />
+<meta property="og:title" content="Deep Convolutional Auto Encoders - Part 1" />
+<meta name="author" content="Max Worgan" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="fastpagesでkernelがJuliaのNotebookが使えるかのテストです。" />
-<meta property="og:description" content="fastpagesでkernelがJuliaのNotebookが使えるかのテストです。" />
-<link rel="canonical" href="https://maxworgan.github.io/blog/test/2020/08/09/julia-plot-test.html" />
-<meta property="og:url" content="https://maxworgan.github.io/blog/test/2020/08/09/julia-plot-test.html" />
+<meta name="description" content="Reimplementing DCAE to encode agent swarm flight" />
+<meta property="og:description" content="Reimplementing DCAE to encode agent swarm flight" />
+<link rel="canonical" href="https://maxworgan.github.io/blog/dimension%20reduction/auto-encoder/swarm/2020/08/09/julia-plot-test.html" />
+<meta property="og:url" content="https://maxworgan.github.io/blog/dimension%20reduction/auto-encoder/swarm/2020/08/09/julia-plot-test.html" />
 <meta property="og:site_name" content="Max Worgan’s PhD research blog" />
-<meta property="og:image" content="https://maxworgan.github.io/blog/images/chart-preview.png" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-08-09T00:00:00-05:00" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta property="twitter:image" content="https://maxworgan.github.io/blog/images/chart-preview.png" />
-<meta property="twitter:title" content="fastpages with Julia and plotly" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Deep Convolutional Auto Encoders - Part 1" />
 <script type="application/ld+json">
-{"url":"https://maxworgan.github.io/blog/test/2020/08/09/julia-plot-test.html","@type":"BlogPosting","headline":"fastpages with Julia and plotly","dateModified":"2020-08-09T00:00:00-05:00","datePublished":"2020-08-09T00:00:00-05:00","image":"https://maxworgan.github.io/blog/images/chart-preview.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://maxworgan.github.io/blog/test/2020/08/09/julia-plot-test.html"},"description":"fastpagesでkernelがJuliaのNotebookが使えるかのテストです。","@context":"https://schema.org"}</script>
+{"url":"https://maxworgan.github.io/blog/dimension%20reduction/auto-encoder/swarm/2020/08/09/julia-plot-test.html","@type":"BlogPosting","headline":"Deep Convolutional Auto Encoders - Part 1","dateModified":"2020-08-09T00:00:00-05:00","datePublished":"2020-08-09T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://maxworgan.github.io/blog/dimension%20reduction/auto-encoder/swarm/2020/08/09/julia-plot-test.html"},"author":{"@type":"Person","name":"Max Worgan"},"description":"Reimplementing DCAE to encode agent swarm flight","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://maxworgan.github.io/blog/feed.xml" title="Max Worgan's PhD research blog" /><link rel="shortcut icon" type="image/x-icon" href="/blog/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
@@ -54,6 +53,8 @@ window.onload = wrap_img;
     elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
     });
 </script>
+
+
 </head>
 <body><header class="site-header">
 
@@ -75,9 +76,11 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">fastpages with Julia and plotly</h1><p class="page-description">fastpagesでkernelがJuliaのNotebookが使えるかのテストです。</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-08-09T00:00:00-05:00" itemprop="datePublished">
+    <h1 class="post-title p-name" itemprop="name headline">Deep Convolutional Auto Encoders - Part 1</h1><p class="page-description">Reimplementing DCAE to encode agent swarm flight</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-08-09T00:00:00-05:00" itemprop="datePublished">
         Aug 9, 2020
-      </time>
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Max Worgan</span></span>
        • <span class="read-time" title="Estimated read time">
     
     
@@ -88,7 +91,13 @@ window.onload = wrap_img;
     
       <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
       
-        <a class="category-tags-link" href="/blog/categories/#test">test</a>
+        <a class="category-tags-link" href="/blog/categories/#dimension reduction">dimension reduction</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#auto-encoder">auto-encoder</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#swarm">swarm</a>
         
       
       </p>
@@ -121,6 +130,8 @@ window.onload = wrap_img;
 
   <div class="post-content e-content" itemprop="articleBody">
     <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h1"><a href="#Introduction">Introduction </a></li>
+<li class="toc-entry toc-h1"><a href="#Details">Details </a></li>
 </ul><body>
 <!--
 #################################################
@@ -131,6 +142,43 @@ window.onload = wrap_img;
 
 <div class="container" id="notebook-container">
         
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Introduction">
+<a class="anchor" href="#Introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction<a class="anchor-link" href="#Introduction"> </a>
+</h1>
+<p>My aim is to try and encode a simulated swarm into a lower dimentional representation so I can identify interesting parameters with which to map into a sound generating system.</p>
+<p>My initial research into reducing complex time-series data lead me to a paper by <a href="http://cs.swan.ac.uk/~csmark/publications/2019_TimeCluster.html">Ali et al</a></p>
+<p>They use convolutional layers in an auto encoder to do dimension reduction on various time series data.</p>
+<p>This seemed like a good place to start, so initially I am just documenting my attempt to recreate their research, using a single agents coordinates in 3d space to match the shape of their model.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Details">
+<a class="anchor" href="#Details" aria-hidden="true"><span class="octicon octicon-link"></span></a>Details<a class="anchor-link" href="#Details"> </a>
+</h1>
+<p>Their approach uses 1D Convolution and the data split into interleaved sliding windows of data:</p>
+<div>
+<figure>
+  
+    <img class="docimage" src="/blog/images/copied_from_nb/images/TimeCluster.png" alt="" style="max-width: 400px">
+    
+    
+</figure>
+
+</div>
+<p>They used a 60 frame window and 3 readings from accelerometers resulting in a 60x3 shape input image.</p>
+<p>As a test of their approach I used a single agents movement data to match the original model specifications.</p>
+<p>Data is captured from a separate flocking simulation (source available on my github soon) of 300 agents over approximately 30 seconds.</p>
+
+</div>
+</div>
+</div>
     
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -138,46 +186,8 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-julia"><pre><span></span><span class="k">using</span> <span class="n">Plots</span><span class="p">;</span> <span class="n">plotly</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>Plots.PlotlyBackend()</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-julia"><pre><span></span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">abs</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">cos</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
-
-<span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="o">:</span><span class="mf">0.1</span><span class="o">:</span><span class="mi">20</span>
-<span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="o">:</span><span class="mf">0.1</span><span class="o">:</span><span class="mi">10</span>
-<span class="n">z</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="kp">in</span> <span class="n">x</span><span class="p">,</span> <span class="n">j</span> <span class="kp">in</span> <span class="n">y</span><span class="p">]</span><span class="o">'</span> 
-
-<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">st</span><span class="o">=:</span><span class="n">surface</span><span class="p">)</span>
+<div class=" highlight hl-julia"><pre><span></span><span class="k">using</span> <span class="n">Flux</span><span class="p">,</span> <span class="n">CSV</span><span class="p">,</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">MLDataPattern</span><span class="p">,</span> <span class="n">CUDA</span><span class="p">,</span> <span class="n">Plots</span><span class="p">,</span> <span class="n">WebIO</span><span class="p">;</span>
+<span class="n">plotly</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -21371,7 +21381,7 @@ window.onload = wrap_img;
         theme="github-light"
         crossorigin="anonymous"
         async>
-</script><a class="u-url" href="/blog/test/2020/08/09/julia-plot-test.html" hidden></a>
+</script><a class="u-url" href="/blog/dimension%20reduction/auto-encoder/swarm/2020/08/09/julia-plot-test.html" hidden></a>
 </article>
 
       </div>
