@@ -11,15 +11,15 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Reimplementing DCAE to encode agent swarm flight" />
 <meta property="og:description" content="Reimplementing DCAE to encode agent swarm flight" />
-<link rel="canonical" href="https://maxworgan.github.io/blog/dimension%20reduction/auto-encoder/swarm/2022/01/21/_01_14_DCAE_Part_2.html" />
-<meta property="og:url" content="https://maxworgan.github.io/blog/dimension%20reduction/auto-encoder/swarm/2022/01/21/_01_14_DCAE_Part_2.html" />
+<link rel="canonical" href="https://maxworgan.github.io/blog/dimension%20reduction/auto-encoder/swarm/2021/01/23/DCAE-Part-1.html" />
+<meta property="og:url" content="https://maxworgan.github.io/blog/dimension%20reduction/auto-encoder/swarm/2021/01/23/DCAE-Part-1.html" />
 <meta property="og:site_name" content="Max Worgan’s PhD research blog" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2022-01-21T00:00:00-06:00" />
+<meta property="article:published_time" content="2021-01-23T00:00:00-06:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Deep Convolutional Auto Encoders - Part 1" />
 <script type="application/ld+json">
-{"url":"https://maxworgan.github.io/blog/dimension%20reduction/auto-encoder/swarm/2022/01/21/_01_14_DCAE_Part_2.html","@type":"BlogPosting","headline":"Deep Convolutional Auto Encoders - Part 1","dateModified":"2022-01-21T00:00:00-06:00","datePublished":"2022-01-21T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://maxworgan.github.io/blog/dimension%20reduction/auto-encoder/swarm/2022/01/21/_01_14_DCAE_Part_2.html"},"author":{"@type":"Person","name":"Max Worgan"},"description":"Reimplementing DCAE to encode agent swarm flight","@context":"https://schema.org"}</script>
+{"url":"https://maxworgan.github.io/blog/dimension%20reduction/auto-encoder/swarm/2021/01/23/DCAE-Part-1.html","@type":"BlogPosting","headline":"Deep Convolutional Auto Encoders - Part 1","dateModified":"2021-01-23T00:00:00-06:00","datePublished":"2021-01-23T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://maxworgan.github.io/blog/dimension%20reduction/auto-encoder/swarm/2021/01/23/DCAE-Part-1.html"},"author":{"@type":"Person","name":"Max Worgan"},"description":"Reimplementing DCAE to encode agent swarm flight","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://maxworgan.github.io/blog/feed.xml" title="Max Worgan's PhD research blog" /><link rel="shortcut icon" type="image/x-icon" href="/blog/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
@@ -74,15 +74,15 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Deep Convolutional Auto Encoders - Part 1</h1><p class="page-description">Reimplementing DCAE to encode agent swarm flight</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-01-21T00:00:00-06:00" itemprop="datePublished">
-        Jan 21, 2022
+    <h1 class="post-title p-name" itemprop="name headline">Deep Convolutional Auto Encoders - Part 1</h1><p class="page-description">Reimplementing DCAE to encode agent swarm flight</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-01-23T00:00:00-06:00" itemprop="datePublished">
+        Jan 23, 2021
       </time>• 
           <span itemprop="author" itemscope itemtype="http://schema.org/Person">
             <span class="p-author h-card" itemprop="name">Max Worgan</span></span>
        • <span class="read-time" title="Estimated read time">
     
     
-      7 min read
+      6 min read
     
 </span></p>
 
@@ -106,19 +106,19 @@ window.onload = wrap_img;
         <div class="pb-5 d-flex flex-justify-center">
           <div class="px-2">
 
-    <a href="https://github.com/MaxWorgan/blog/tree/master/_notebooks/2022_01_14_DCAE_Part_2.ipynb" role="button" target="_blank">
+    <a href="https://github.com/MaxWorgan/blog/tree/master/_notebooks/2021-01-23-DCAE-Part-1.ipynb" role="button" target="_blank">
 <img class="notebook-badge-image" src="/blog/assets/badges/github.svg" alt="View On GitHub">
     </a>
 </div>
 
           <div class="px-2">
-    <a href="https://mybinder.org/v2/gh/MaxWorgan/blog/master?filepath=_notebooks%2F2022_01_14_DCAE_Part_2.ipynb" target="_blank">
+    <a href="https://mybinder.org/v2/gh/MaxWorgan/blog/master?filepath=_notebooks%2F2021-01-23-DCAE-Part-1.ipynb" target="_blank">
         <img class="notebook-badge-image" src="/blog/assets/badges/binder.svg" alt="Open In Binder"/>
     </a>
 </div>
 
           <div class="px-2">
-    <a href="https://colab.research.google.com/github/MaxWorgan/blog/blob/master/_notebooks/2022_01_14_DCAE_Part_2.ipynb" target="_blank">
+    <a href="https://colab.research.google.com/github/MaxWorgan/blog/blob/master/_notebooks/2021-01-23-DCAE-Part-1.ipynb" target="_blank">
         <img class="notebook-badge-image" src="/blog/assets/badges/colab.svg" alt="Open In Colab"/>
     </a>
 </div>
@@ -128,46 +128,57 @@ window.onload = wrap_img;
 
   <div class="post-content e-content" itemprop="articleBody">
     <ul id="toc" class="section-nav">
-<li class="toc-entry toc-h1"><a href="#Introduction">Introduction </a></li>
-<li class="toc-entry toc-h1"><a href="#Details">Details </a></li>
-<li class="toc-entry toc-h1"><a href="#Data-Noramlisation-and-preperation">Data Noramlisation and preperation </a></li>
-<li class="toc-entry toc-h1"><a href="#Define-the-encoder-and-decoder">Define the encoder and decoder </a></li>
-<li class="toc-entry toc-h1"><a href="#Training">Training </a></li>
-<li class="toc-entry toc-h1"><a href="#Conclusion">Conclusion </a></li>
+<li class="toc-entry toc-h2"><a href="#Details">Details </a></li>
+<li class="toc-entry toc-h2"><a href="#Data-Noramlisation-and-preperation">Data Noramlisation and preperation </a></li>
+<li class="toc-entry toc-h2"><a href="#Define-the-encoder-and-decoder">Define the encoder and decoder </a></li>
+<li class="toc-entry toc-h2"><a href="#Training">Training </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Conclusion">Conclusion </a></li>
+</ul>
+</li>
 </ul><!--
 #################################################
 ### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
 #################################################
-# file to edit: _notebooks/2022_01_14_DCAE_Part_2.ipynb
+# file to edit: _notebooks/2021-01-23-DCAE-Part-1.ipynb
 -->
 
 <div class="container" id="notebook-container">
         
-<div class="cell border-box-sizing text_cell rendered">
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Introduction">
-<a class="anchor" href="#Introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction<a class="anchor-link" href="#Introduction"> </a>
-</h1>
-<p>My aim is to try and encode a simulated swarm into a lower dimentional representation so I can identify interesting parameters with which to map into a sound generating system.</p>
-<p>My initial research into reducing complex time-series data lead me to a paper by <a href="http://cs.swan.ac.uk/~csmark/publications/2019_TimeCluster.html">Ali et al</a></p>
-<p>They use convolutional layers in an auto encoder to do dimension reduction on various time series data.</p>
-<p>This seemed like a good place to start, so initially I am just documenting my attempt to recreate their research, using a single agents coordinates in 3d space to match the shape of their model.</p>
+    <div class="input_area">
+<div class=" highlight hl-julia"><pre><span></span><span class="n">My</span> <span class="n">aim</span> <span class="n">is</span> <span class="n">to</span> <span class="k">try</span> <span class="n">and</span> <span class="n">encode</span> <span class="n">a</span> <span class="n">simulated</span> <span class="n">swarm</span> <span class="n">into</span> <span class="n">a</span> <span class="n">lower</span> <span class="n">dimentional</span> <span class="n">representation</span> <span class="n">so</span> <span class="nb">I</span> <span class="n">can</span> <span class="n">identify</span> <span class="n">interesting</span> <span class="n">parameters</span> <span class="n">with</span> <span class="n">which</span> <span class="n">to</span> <span class="n">map</span> <span class="n">into</span> <span class="n">a</span> <span class="n">sound</span> <span class="n">generating</span> <span class="n">system</span><span class="o">.</span>
+
+    <span class="n">My</span> <span class="n">initial</span> <span class="n">research</span> <span class="n">into</span> <span class="n">reducing</span> <span class="n">complex</span> <span class="n">time</span><span class="o">-</span><span class="n">series</span> <span class="n">data</span> <span class="n">lead</span> <span class="n">me</span> <span class="n">to</span> <span class="n">a</span> <span class="n">paper</span> <span class="n">by</span> <span class="p">[</span><span class="n">Ali</span> <span class="n">et</span> <span class="n">al</span><span class="p">](</span><span class="n">http</span><span class="o">://</span><span class="n">cs</span><span class="o">.</span><span class="n">swan</span><span class="o">.</span><span class="n">ac</span><span class="o">.</span><span class="n">uk</span><span class="o">/~</span><span class="n">csmark</span><span class="o">/</span><span class="n">publications</span><span class="o">/</span><span class="mi">2019</span><span class="n">_TimeCluster</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
+    
+    <span class="n">They</span> <span class="n">use</span> <span class="n">convolutional</span> <span class="n">layers</span> <span class="kp">in</span> <span class="n">an</span> <span class="n">auto</span> <span class="n">encoder</span> <span class="n">to</span> <span class="k">do</span> <span class="n">dimension</span> <span class="n">reduction</span> <span class="n">on</span> <span class="n">various</span> <span class="n">time</span> <span class="n">series</span> <span class="n">data</span><span class="o">.</span>
+    
+    <span class="n">This</span> <span class="n">seemed</span> <span class="n">like</span> <span class="n">a</span> <span class="n">good</span> <span class="n">place</span> <span class="n">to</span> <span class="n">start</span><span class="p">,</span> <span class="n">so</span> <span class="n">initially</span> <span class="nb">I</span> <span class="n">am</span> <span class="n">just</span> <span class="n">documenting</span> <span class="n">my</span> <span class="n">attempt</span> <span class="n">to</span> <span class="n">recreate</span> <span class="n">their</span> <span class="n">research</span><span class="p">,</span> <span class="k">using</span> <span class="n">a</span> <span class="n">single</span> <span class="n">agents</span> <span class="n">coordinates</span> <span class="kp">in</span> <span class="mi">3</span><span class="n">d</span> <span class="n">space</span> <span class="n">to</span> <span class="n">match</span> <span class="n">the</span> <span class="n">shape</span> <span class="n">of</span> <span class="n">their</span> <span class="n">model</span><span class="o">.</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
 
 </div>
-</div>
-</div>
+    
+
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Details">
+<h2 id="Details">
 <a class="anchor" href="#Details" aria-hidden="true"><span class="octicon octicon-link"></span></a>Details<a class="anchor-link" href="#Details"> </a>
-</h1>
+</h2>
 <p>Their approach uses 1D Convolution and the data split into interleaved sliding windows of data:</p>
 <div>
 <figure>
   
-    <img class="docimage" src="https://github.com/MaxWorgan/blog/blob/master/_notebooks/images/TimeCluster.png?raw=1" alt="" style="max-width: 400px">
+    <img class="docimage" src="/blog/images/copied_from_nb/images/TimeCluster.png" alt="" style="max-width: 400px">
     
     
 </figure>
@@ -187,7 +198,7 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-julia"><pre><span></span><span class="k">using</span> <span class="n">Flux</span><span class="p">,</span> <span class="n">CSV</span><span class="p">,</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">MLDataPattern</span><span class="p">,</span> <span class="n">CUDA</span><span class="p">,</span> <span class="n">Plots</span><span class="p">,</span> <span class="n">WebIO</span><span class="p">;</span>
+<div class=" highlight hl-julia"><pre><span></span><span class="k">using</span> <span class="n">Flux</span><span class="p">,</span> <span class="n">CSV</span><span class="p">,</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">MLDataPattern</span><span class="p">,</span> <span class="n">CUDA</span><span class="p">,</span> <span class="n">PlotlyBase</span><span class="p">,</span> <span class="n">Plots</span><span class="p">,</span> <span class="n">WebIO</span><span class="p">;</span>
 <span class="n">plotly</span><span class="p">()</span>
 </pre></div>
 
@@ -221,7 +232,7 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-julia"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">CSV</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="s">"data.csv"</span><span class="p">;</span> <span class="n">types</span><span class="o">=</span><span class="kt">Float32</span><span class="p">))</span>
+<div class=" highlight hl-julia"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">CSV</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="s">"</span><span class="si">$</span><span class="p">(</span><span class="n">datadir</span><span class="p">())</span><span class="s">/exp_raw/data.csv"</span><span class="p">;</span> <span class="n">types</span><span class="o">=</span><span class="kt">Float32</span><span class="p">))</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="o">:</span><span class="mi">3</span><span class="p">]</span>
 
 <span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="n">df</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
@@ -238,16 +249,17 @@ window.onload = wrap_img;
 
 
 <div class="output_html rendered_html output_subarea output_execute_result">
-    <div id="adb9dd88-7152-47e5-b52d-ed76def6a57a" style="width:600px;height:400px;"></div>
+    <div id="ed863589-1567-42d8-ad76-6add31b1c630" style="width:600px;height:400px;"></div>
     <script>
         requirejs.config({
         paths: {
-            Plotly: 'https://cdn.plot.ly/plotly-2.6.3.min'
+            Plotly: 'https://cdn.plot.ly/plotly-1.57.1.min'
         }
     });
     require(['Plotly'], function (Plotly) {
 
-        Plotly.newPlot('adb9dd88-7152-47e5-b52d-ed76def6a57a', [
+        var PLOT = document.getElementById('ed863589-1567-42d8-ad76-6add31b1c630');
+    Plotly.plot(PLOT, [
     {
         "xaxis": "x",
         "colorbar": {
@@ -10839,14 +10851,6 @@ window.onload = wrap_img;
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We can treat this 3D data as 3 separate 1D data points, matching the original TimeCluster data shape</p>
-
-</div>
-</div>
-</div>
     
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -10870,16 +10874,17 @@ window.onload = wrap_img;
 
 
 <div class="output_html rendered_html output_subarea output_execute_result">
-    <div id="cd62b7c2-6913-45d2-9a56-23ba5a348538" style="width:600px;height:400px;"></div>
+    <div id="637f6dab-b802-411b-959d-b08355272efe" style="width:600px;height:400px;"></div>
     <script>
         requirejs.config({
         paths: {
-            Plotly: 'https://cdn.plot.ly/plotly-2.6.3.min'
+            Plotly: 'https://cdn.plot.ly/plotly-1.57.1.min'
         }
     });
     require(['Plotly'], function (Plotly) {
 
-        Plotly.newPlot('cd62b7c2-6913-45d2-9a56-23ba5a348538', [
+        var PLOT = document.getElementById('637f6dab-b802-411b-959d-b08355272efe');
+    Plotly.plot(PLOT, [
     {
         "xaxis": "x",
         "colorbar": {
@@ -31821,9 +31826,9 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Data-Noramlisation-and-preperation">
+<h2 id="Data-Noramlisation-and-preperation">
 <a class="anchor" href="#Data-Noramlisation-and-preperation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Data Noramlisation and preperation<a class="anchor-link" href="#Data-Noramlisation-and-preperation"> </a>
-</h1>
+</h2>
 <p>Normalise the data into the range [0, 1] as per the paper.
 We then create a sliding window using the defaults from the paper where stride = 1 and window_size = 60</p>
 
@@ -31860,9 +31865,9 @@ We then create a sliding window using the defaults from the paper where stride =
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Define-the-encoder-and-decoder">
+<h2 id="Define-the-encoder-and-decoder">
 <a class="anchor" href="#Define-the-encoder-and-decoder" aria-hidden="true"><span class="octicon octicon-link"></span></a>Define the encoder and decoder<a class="anchor-link" href="#Define-the-encoder-and-decoder"> </a>
-</h1>
+</h2>
 <p>We create the auto-encoder network as per the paper</p>
 
 </div>
@@ -31935,9 +31940,9 @@ We then create a sliding window using the defaults from the paper where stride =
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Training">
+<h2 id="Training">
 <a class="anchor" href="#Training" aria-hidden="true"><span class="octicon octicon-link"></span></a>Training<a class="anchor-link" href="#Training"> </a>
-</h1>
+</h2>
 <p>In keeping with the paper we use the Mean Square Error loss function and the ADAM optimiser</p>
 
 </div>
@@ -32059,106 +32064,106 @@ We then create a sliding window using the defaults from the paper where stride =
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Epoch 1/100 - train loss: 0.024159
-Epoch 2/100 - train loss: 0.003284
-Epoch 3/100 - train loss: 0.001733
-Epoch 4/100 - train loss: 0.001286
-Epoch 5/100 - train loss: 0.001065
-Epoch 6/100 - train loss: 0.000914
-Epoch 7/100 - train loss: 0.000763
-Epoch 8/100 - train loss: 0.000584
-Epoch 9/100 - train loss: 0.00039
-Epoch 10/100 - train loss: 0.000268
-Epoch 11/100 - train loss: 0.000214
-Epoch 12/100 - train loss: 0.000179
-Epoch 13/100 - train loss: 0.000157
-Epoch 14/100 - train loss: 0.000142
-Epoch 15/100 - train loss: 0.00013
-Epoch 16/100 - train loss: 0.000119
-Epoch 17/100 - train loss: 0.000109
-Epoch 18/100 - train loss: 9.9e-5
-Epoch 19/100 - train loss: 9.0e-5
-Epoch 20/100 - train loss: 8.3e-5
-Epoch 21/100 - train loss: 7.7e-5
-Epoch 22/100 - train loss: 7.2e-5
-Epoch 23/100 - train loss: 6.7e-5
-Epoch 24/100 - train loss: 6.2e-5
-Epoch 25/100 - train loss: 5.8e-5
-Epoch 26/100 - train loss: 5.2e-5
-Epoch 27/100 - train loss: 4.8e-5
-Epoch 28/100 - train loss: 4.4e-5
-Epoch 29/100 - train loss: 4.1e-5
-Epoch 30/100 - train loss: 3.8e-5
-Epoch 31/100 - train loss: 3.6e-5
-Epoch 32/100 - train loss: 3.3e-5
-Epoch 33/100 - train loss: 3.2e-5
-Epoch 34/100 - train loss: 3.0e-5
-Epoch 35/100 - train loss: 2.8e-5
-Epoch 36/100 - train loss: 2.6e-5
-Epoch 37/100 - train loss: 2.5e-5
-Epoch 38/100 - train loss: 2.4e-5
-Epoch 39/100 - train loss: 2.4e-5
-Epoch 40/100 - train loss: 2.4e-5
-Epoch 41/100 - train loss: 2.4e-5
-Epoch 42/100 - train loss: 2.3e-5
-Epoch 43/100 - train loss: 2.2e-5
-Epoch 44/100 - train loss: 2.2e-5
-Epoch 45/100 - train loss: 2.1e-5
-Epoch 46/100 - train loss: 2.0e-5
-Epoch 47/100 - train loss: 1.9e-5
-Epoch 48/100 - train loss: 1.8e-5
-Epoch 49/100 - train loss: 1.7e-5
-Epoch 50/100 - train loss: 1.7e-5
+<pre>Epoch 1/100 - train loss: 0.027875
+Epoch 2/100 - train loss: 0.005195
+Epoch 3/100 - train loss: 0.002273
+Epoch 4/100 - train loss: 0.00148
+Epoch 5/100 - train loss: 0.001125
+Epoch 6/100 - train loss: 0.00092
+Epoch 7/100 - train loss: 0.000788
+Epoch 8/100 - train loss: 0.000699
+Epoch 9/100 - train loss: 0.000621
+Epoch 10/100 - train loss: 0.000544
+Epoch 11/100 - train loss: 0.000455
+Epoch 12/100 - train loss: 0.000358
+Epoch 13/100 - train loss: 0.000262
+Epoch 14/100 - train loss: 0.000209
+Epoch 15/100 - train loss: 0.00018
+Epoch 16/100 - train loss: 0.000158
+Epoch 17/100 - train loss: 0.000141
+Epoch 18/100 - train loss: 0.000129
+Epoch 19/100 - train loss: 0.000118
+Epoch 20/100 - train loss: 0.000108
+Epoch 21/100 - train loss: 0.0001
+Epoch 22/100 - train loss: 9.3e-5
+Epoch 23/100 - train loss: 8.6e-5
+Epoch 24/100 - train loss: 7.9e-5
+Epoch 25/100 - train loss: 7.2e-5
+Epoch 26/100 - train loss: 6.7e-5
+Epoch 27/100 - train loss: 6.3e-5
+Epoch 28/100 - train loss: 5.8e-5
+Epoch 29/100 - train loss: 5.3e-5
+Epoch 30/100 - train loss: 4.8e-5
+Epoch 31/100 - train loss: 4.5e-5
+Epoch 32/100 - train loss: 4.1e-5
+Epoch 33/100 - train loss: 3.9e-5
+Epoch 34/100 - train loss: 3.8e-5
+Epoch 35/100 - train loss: 3.6e-5
+Epoch 36/100 - train loss: 3.4e-5
+Epoch 37/100 - train loss: 3.2e-5
+Epoch 38/100 - train loss: 3.0e-5
+Epoch 39/100 - train loss: 2.9e-5
+Epoch 40/100 - train loss: 2.9e-5
+Epoch 41/100 - train loss: 2.8e-5
+Epoch 42/100 - train loss: 2.7e-5
+Epoch 43/100 - train loss: 2.6e-5
+Epoch 44/100 - train loss: 2.6e-5
+Epoch 45/100 - train loss: 2.5e-5
+Epoch 46/100 - train loss: 2.4e-5
+Epoch 47/100 - train loss: 2.4e-5
+Epoch 48/100 - train loss: 2.2e-5
+Epoch 49/100 - train loss: 2.1e-5
+Epoch 50/100 - train loss: 1.8e-5
 Epoch 51/100 - train loss: 1.6e-5
 Epoch 52/100 - train loss: 1.5e-5
-Epoch 53/100 - train loss: 1.5e-5
+Epoch 53/100 - train loss: 1.6e-5
 Epoch 54/100 - train loss: 1.5e-5
-Epoch 55/100 - train loss: 1.4e-5
-Epoch 56/100 - train loss: 1.4e-5
+Epoch 55/100 - train loss: 1.5e-5
+Epoch 56/100 - train loss: 1.3e-5
 Epoch 57/100 - train loss: 1.4e-5
 Epoch 58/100 - train loss: 1.3e-5
-Epoch 59/100 - train loss: 1.3e-5
-Epoch 60/100 - train loss: 1.3e-5
-Epoch 61/100 - train loss: 1.3e-5
-Epoch 62/100 - train loss: 1.2e-5
-Epoch 63/100 - train loss: 1.2e-5
-Epoch 64/100 - train loss: 1.2e-5
+Epoch 59/100 - train loss: 1.4e-5
+Epoch 60/100 - train loss: 1.2e-5
+Epoch 61/100 - train loss: 1.5e-5
+Epoch 62/100 - train loss: 1.1e-5
+Epoch 63/100 - train loss: 1.3e-5
+Epoch 64/100 - train loss: 1.0e-5
 Epoch 65/100 - train loss: 1.2e-5
-Epoch 66/100 - train loss: 1.2e-5
-Epoch 67/100 - train loss: 1.2e-5
-Epoch 68/100 - train loss: 1.2e-5
-Epoch 69/100 - train loss: 1.2e-5
-Epoch 70/100 - train loss: 1.2e-5
-Epoch 71/100 - train loss: 1.1e-5
-Epoch 72/100 - train loss: 1.1e-5
-Epoch 73/100 - train loss: 1.1e-5
-Epoch 74/100 - train loss: 1.1e-5
-Epoch 75/100 - train loss: 1.1e-5
-Epoch 76/100 - train loss: 1.0e-5
-Epoch 77/100 - train loss: 1.0e-5
-Epoch 78/100 - train loss: 1.0e-5
-Epoch 79/100 - train loss: 1.0e-5
-Epoch 80/100 - train loss: 1.0e-5
-Epoch 81/100 - train loss: 9.0e-6
-Epoch 82/100 - train loss: 9.0e-6
-Epoch 83/100 - train loss: 1.0e-5
-Epoch 84/100 - train loss: 1.0e-5
-Epoch 85/100 - train loss: 1.1e-5
-Epoch 86/100 - train loss: 1.0e-5
-Epoch 87/100 - train loss: 1.0e-5
-Epoch 88/100 - train loss: 1.0e-5
-Epoch 89/100 - train loss: 1.0e-5
-Epoch 90/100 - train loss: 1.0e-5
-Epoch 91/100 - train loss: 1.0e-5
-Epoch 92/100 - train loss: 1.0e-5
-Epoch 93/100 - train loss: 1.0e-5
-Epoch 94/100 - train loss: 1.0e-5
-Epoch 95/100 - train loss: 1.0e-5
-Epoch 96/100 - train loss: 1.0e-5
-Epoch 97/100 - train loss: 1.0e-5
-Epoch 98/100 - train loss: 1.0e-5
-Epoch 99/100 - train loss: 1.0e-5
-Epoch 100/100 - train loss: 9.0e-6
+Epoch 66/100 - train loss: 1.0e-5
+Epoch 67/100 - train loss: 1.1e-5
+Epoch 68/100 - train loss: 1.0e-5
+Epoch 69/100 - train loss: 1.0e-5
+Epoch 70/100 - train loss: 9.0e-6
+Epoch 71/100 - train loss: 9.0e-6
+Epoch 72/100 - train loss: 9.0e-6
+Epoch 73/100 - train loss: 9.0e-6
+Epoch 74/100 - train loss: 8.0e-6
+Epoch 75/100 - train loss: 8.0e-6
+Epoch 76/100 - train loss: 8.0e-6
+Epoch 77/100 - train loss: 8.0e-6
+Epoch 78/100 - train loss: 8.0e-6
+Epoch 79/100 - train loss: 8.0e-6
+Epoch 80/100 - train loss: 8.0e-6
+Epoch 81/100 - train loss: 8.0e-6
+Epoch 82/100 - train loss: 8.0e-6
+Epoch 83/100 - train loss: 8.0e-6
+Epoch 84/100 - train loss: 8.0e-6
+Epoch 85/100 - train loss: 8.0e-6
+Epoch 86/100 - train loss: 8.0e-6
+Epoch 87/100 - train loss: 7.0e-6
+Epoch 88/100 - train loss: 7.0e-6
+Epoch 89/100 - train loss: 7.0e-6
+Epoch 90/100 - train loss: 7.0e-6
+Epoch 91/100 - train loss: 6.0e-6
+Epoch 92/100 - train loss: 7.0e-6
+Epoch 93/100 - train loss: 7.0e-6
+Epoch 94/100 - train loss: 6.0e-6
+Epoch 95/100 - train loss: 7.0e-6
+Epoch 96/100 - train loss: 7.0e-6
+Epoch 97/100 - train loss: 7.0e-6
+Epoch 98/100 - train loss: 6.0e-6
+Epoch 99/100 - train loss: 6.0e-6
+Epoch 100/100 - train loss: 6.0e-6
 </pre>
 </div>
 </div>
@@ -32166,9 +32171,8 @@ Epoch 100/100 - train loss: 9.0e-6
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre><span class="ansi-green-intense-fg ansi-bold"> Downloading</span> artifact: CUDA_compat
-┌ Warning: The specified values for size and/or count will result in 1 unused data points
-└ @ MLDataPattern /root/.julia/packages/MLDataPattern/2yPuO/src/dataview.jl:205
+<pre>┌ Warning: The specified values for size and/or count will result in 1 unused data points
+└ @ MLDataPattern /Users/max/.julia/packages/MLDataPattern/KlSmO/src/dataview.jl:205
 </pre>
 </div>
 </div>
@@ -32203,16 +32207,17 @@ Epoch 100/100 - train loss: 9.0e-6
 
 
 <div class="output_html rendered_html output_subarea output_execute_result">
-    <div id="91c753fb-be6d-4d33-bb19-f763ec28ed9b" style="width:600px;height:400px;"></div>
+    <div id="8e7ec32b-f4ee-4572-9d32-30aa12b1f0e8" style="width:600px;height:400px;"></div>
     <script>
         requirejs.config({
         paths: {
-            Plotly: 'https://cdn.plot.ly/plotly-2.6.3.min'
+            Plotly: 'https://cdn.plot.ly/plotly-1.57.1.min'
         }
     });
     require(['Plotly'], function (Plotly) {
 
-        Plotly.newPlot('91c753fb-be6d-4d33-bb19-f763ec28ed9b', [
+        var PLOT = document.getElementById('8e7ec32b-f4ee-4572-9d32-30aa12b1f0e8');
+    Plotly.plot(PLOT, [
     {
         "xaxis": "x",
         "colorbar": {
@@ -32334,106 +32339,106 @@ Epoch 100/100 - train loss: 9.0e-6
             "width": 1
         },
         "y": [
-            0.02415899932384491,
-            0.0032840000931173563,
-            0.0017330000409856439,
-            0.0012860000133514404,
-            0.0010649999603629112,
-            0.0009139999747276306,
-            0.00076299998909235,
-            0.0005840000230818987,
-            0.00039000000106170774,
-            0.0002680000034160912,
-            0.00021399999968707561,
-            0.00017899999511428177,
-            0.00015700000221841037,
-            0.00014200000441633165,
-            0.00013000000035390258,
-            0.00011899999663000926,
-            0.00010900000052060932,
-            9.899999713525176e-5,
-            9.000000136438757e-5,
-            8.299999899463728e-5,
-            7.699999696342275e-5,
+            0.02787500061094761,
+            0.00519500020891428,
+            0.0022730000782757998,
+            0.0014799999771639705,
+            0.0011249999515712261,
+            0.0009200000204145908,
+            0.0007880000048317015,
+            0.0006990000256337225,
+            0.0006210000137798488,
+            0.0005440000095404685,
+            0.000455000001238659,
+            0.00035799999022856355,
+            0.00026199998683296144,
+            0.00020900000527035445,
+            0.00018000000272877514,
+            0.00015799999528098851,
+            0.00014099999680183828,
+            0.0001289999927394092,
+            0.00011800000356743112,
+            0.00010800000018207356,
+            9.999999747378752e-5,
+            9.300000237999484e-5,
+            8.600000001024455e-5,
+            7.899999764049426e-5,
             7.200000254670158e-5,
             6.70000008540228e-5,
-            6.199999916134402e-5,
+            6.299999949987978e-5,
             5.8000001445179805e-5,
-            5.199999941396527e-5,
+            5.2999999752501026e-5,
             4.8000001697801054e-5,
-            4.400000034365803e-5,
+            4.5000000682193786e-5,
             4.099999932805076e-5,
+            3.899999865097925e-5,
             3.7999998312443495e-5,
             3.600000127335079e-5,
-            3.300000025774352e-5,
+            3.400000059627928e-5,
             3.199999991920777e-5,
             2.9999999242136255e-5,
+            2.9000000722589903e-5,
+            2.9000000722589903e-5,
             2.8000000384054147e-5,
+            2.700000004551839e-5,
+            2.5999999706982635e-5,
             2.5999999706982635e-5,
             2.499999936844688e-5,
             2.4000000848900527e-5,
             2.4000000848900527e-5,
-            2.4000000848900527e-5,
-            2.4000000848900527e-5,
-            2.300000051036477e-5,
-            2.2000000171829015e-5,
             2.2000000171829015e-5,
             2.099999983329326e-5,
-            1.9999999494757503e-5,
-            1.8999999156221747e-5,
             1.8000000636675395e-5,
-            1.700000029813964e-5,
-            1.700000029813964e-5,
+            1.5999999959603883e-5,
+            1.4999999621068127e-5,
             1.5999999959603883e-5,
             1.4999999621068127e-5,
             1.4999999621068127e-5,
+            1.2999999853491317e-5,
+            1.4000000192027073e-5,
+            1.2999999853491317e-5,
+            1.4000000192027073e-5,
+            1.2000000424450263e-5,
             1.4999999621068127e-5,
-            1.4000000192027073e-5,
-            1.4000000192027073e-5,
-            1.4000000192027073e-5,
+            1.1000000085914508e-5,
             1.2999999853491317e-5,
-            1.2999999853491317e-5,
-            1.2999999853491317e-5,
-            1.2999999853491317e-5,
-            1.2000000424450263e-5,
-            1.2000000424450263e-5,
-            1.2000000424450263e-5,
-            1.2000000424450263e-5,
-            1.2000000424450263e-5,
-            1.2000000424450263e-5,
-            1.2000000424450263e-5,
-            1.2000000424450263e-5,
-            1.2000000424450263e-5,
-            1.1000000085914508e-5,
-            1.1000000085914508e-5,
-            1.1000000085914508e-5,
-            1.1000000085914508e-5,
-            1.1000000085914508e-5,
             9.999999747378752e-6,
+            1.2000000424450263e-5,
             9.999999747378752e-6,
-            9.999999747378752e-6,
+            1.1000000085914508e-5,
             9.999999747378752e-6,
             9.999999747378752e-6,
             9.000000318337698e-6,
             9.000000318337698e-6,
-            9.999999747378752e-6,
-            9.999999747378752e-6,
-            1.1000000085914508e-5,
-            9.999999747378752e-6,
-            9.999999747378752e-6,
-            9.999999747378752e-6,
-            9.999999747378752e-6,
-            9.999999747378752e-6,
-            9.999999747378752e-6,
-            9.999999747378752e-6,
-            9.999999747378752e-6,
-            9.999999747378752e-6,
-            9.999999747378752e-6,
-            9.999999747378752e-6,
-            9.999999747378752e-6,
-            9.999999747378752e-6,
-            9.999999747378752e-6,
-            9.000000318337698e-6
+            9.000000318337698e-6,
+            9.000000318337698e-6,
+            7.999999979801942e-6,
+            7.999999979801942e-6,
+            7.999999979801942e-6,
+            7.999999979801942e-6,
+            7.999999979801942e-6,
+            7.999999979801942e-6,
+            7.999999979801942e-6,
+            7.999999979801942e-6,
+            7.999999979801942e-6,
+            7.999999979801942e-6,
+            7.999999979801942e-6,
+            7.999999979801942e-6,
+            7.999999979801942e-6,
+            7.000000096013537e-6,
+            7.000000096013537e-6,
+            7.000000096013537e-6,
+            7.000000096013537e-6,
+            6.000000212225132e-6,
+            7.000000096013537e-6,
+            7.000000096013537e-6,
+            6.000000212225132e-6,
+            7.000000096013537e-6,
+            7.000000096013537e-6,
+            7.000000096013537e-6,
+            6.000000212225132e-6,
+            6.000000212225132e-6,
+            6.000000212225132e-6
         ],
         "type": "scatter"
     }
@@ -32509,11 +32514,12 @@ Epoch 100/100 - train loss: 9.0e-6
             0.005,
             0.01,
             0.015,
-            0.02
+            0.02,
+            0.025
         ],
         "range": [
-            -0.0007154999793874595,
-            0.024883499303550705
+            -0.0008300700181098364,
+            0.02871107062926967
         ],
         "domain": [
             0.07581474190726165,
@@ -32527,7 +32533,8 @@ Epoch 100/100 - train loss: 9.0e-6
             "0.005",
             "0.010",
             "0.015",
-            "0.020"
+            "0.020",
+            "0.025"
         ],
         "zeroline": false,
         "tickfont": {
@@ -32593,14 +32600,6 @@ Epoch 100/100 - train loss: 9.0e-6
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Lets see how well it's able to reconstruct a random segment of the data</p>
-
-</div>
-</div>
-</div>
     
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -32627,16 +32626,17 @@ Epoch 100/100 - train loss: 9.0e-6
 
 
 <div class="output_html rendered_html output_subarea output_execute_result">
-    <div id="10d764af-4776-4363-868e-bc569ef622e7" style="width:600px;height:400px;"></div>
+    <div id="d767e66b-0eb0-4203-bc6a-c14a4bd43690" style="width:600px;height:400px;"></div>
     <script>
         requirejs.config({
         paths: {
-            Plotly: 'https://cdn.plot.ly/plotly-2.6.3.min'
+            Plotly: 'https://cdn.plot.ly/plotly-1.57.1.min'
         }
     });
     require(['Plotly'], function (Plotly) {
 
-        Plotly.newPlot('10d764af-4776-4363-868e-bc569ef622e7', [
+        var PLOT = document.getElementById('d767e66b-0eb0-4203-bc6a-c14a4bd43690');
+    Plotly.plot(PLOT, [
     {
         "xaxis": "x",
         "colorbar": {
@@ -32645,66 +32645,66 @@ Epoch 100/100 - train loss: 9.0e-6
         "yaxis": "y",
         "zaxis": "z",
         "x": [
-            0.21786557,
-            0.2167512,
-            0.2156572,
-            0.21458358,
-            0.21352917,
-            0.212494,
-            0.2114792,
-            0.21048929,
-            0.20952424,
-            0.20858525,
-            0.20766774,
-            0.20677397,
-            0.20590398,
-            0.20505887,
-            0.20423865,
-            0.20344447,
-            0.20267741,
-            0.20193753,
-            0.2012259,
-            0.20054258,
-            0.19988754,
-            0.1992619,
-            0.19866456,
-            0.19809437,
-            0.19755134,
-            0.19703998,
-            0.19655801,
-            0.19610323,
-            0.19567785,
-            0.1952751,
-            0.19489044,
-            0.1945239,
-            0.1941709,
-            0.19383152,
-            0.19350569,
-            0.19319344,
-            0.19289704,
-            0.19261758,
-            0.192354,
-            0.19210848,
-            0.19186865,
-            0.1916356,
-            0.19140819,
-            0.1911921,
-            0.19098622,
-            0.19078822,
-            0.19059703,
-            0.19040358,
-            0.19020785,
-            0.1900076,
-            0.18980509,
-            0.18959805,
-            0.18938762,
-            0.18917947,
-            0.1889747,
-            0.18877332,
-            0.18857759,
-            0.1883864,
-            0.1882099,
-            0.18804926
+            0.4928786,
+            0.4950124,
+            0.49713966,
+            0.49926022,
+            0.5013745,
+            0.50348234,
+            0.5055843,
+            0.5076847,
+            0.5097836,
+            0.5118805,
+            0.5139745,
+            0.5160648,
+            0.5181507,
+            0.5202312,
+            0.52230597,
+            0.52437437,
+            0.5264363,
+            0.528492,
+            0.5305417,
+            0.53258616,
+            0.53462565,
+            0.53666043,
+            0.53869075,
+            0.5407162,
+            0.542732,
+            0.5447375,
+            0.5467321,
+            0.54871505,
+            0.5506917,
+            0.5526609,
+            0.5546215,
+            0.5565725,
+            0.558513,
+            0.5604418,
+            0.56235826,
+            0.5642609,
+            0.56615025,
+            0.5680226,
+            0.56988025,
+            0.5717198,
+            0.5735413,
+            0.57534236,
+            0.57712424,
+            0.57888454,
+            0.58062226,
+            0.58233625,
+            0.5840276,
+            0.5856941,
+            0.58733,
+            0.5889342,
+            0.59050673,
+            0.5920487,
+            0.5935603,
+            0.59504116,
+            0.5964938,
+            0.5979181,
+            0.5993164,
+            0.60068995,
+            0.60203964,
+            0.60336775
         ],
         "showlegend": true,
         "mode": "lines",
@@ -32712,66 +32712,66 @@ Epoch 100/100 - train loss: 9.0e-6
         "zmin": null,
         "legendgroup": "original",
         "z": [
-            0.4310437,
-            0.42735034,
-            0.42365304,
-            0.4199522,
-            0.41624856,
-            0.4125424,
-            0.40883446,
-            0.40512395,
-            0.40141168,
-            0.3976983,
-            0.3939848,
-            0.39027166,
-            0.38655964,
-            0.3828493,
-            0.37914145,
-            0.37543693,
-            0.37173644,
-            0.36804095,
-            0.3643511,
-            0.36066803,
-            0.35699254,
-            0.35332578,
-            0.34966853,
-            0.34602165,
-            0.34238636,
-            0.33876482,
-            0.3351578,
-            0.33156693,
-            0.32799307,
-            0.32443726,
-            0.3208996,
-            0.31738114,
-            0.3138808,
-            0.31039968,
-            0.30693895,
-            0.30349854,
-            0.30008078,
-            0.29668677,
-            0.29331768,
-            0.28997457,
-            0.28665295,
-            0.28335172,
-            0.28007087,
-            0.2768126,
-            0.27357474,
-            0.27035835,
-            0.26716235,
-            0.2639867,
-            0.26083478,
-            0.2577055,
-            0.2545989,
-            0.25151485,
-            0.2484546,
-            0.24542035,
-            0.2424144,
-            0.23943673,
-            0.23649074,
-            0.23357755,
-            0.23070282,
-            0.22786544
+            0.50899106,
+            0.5117773,
+            0.5145785,
+            0.5173947,
+            0.5202259,
+            0.523072,
+            0.52593327,
+            0.52880853,
+            0.5316983,
+            0.53460276,
+            0.5375223,
+            0.54045755,
+            0.54340875,
+            0.54637635,
+            0.5493607,
+            0.55236214,
+            0.5553805,
+            0.5584161,
+            0.5614685,
+            0.564537,
+            0.56762326,
+            0.57072425,
+            0.5738422,
+            0.57697487,
+            0.5801245,
+            0.58329,
+            0.5864735,
+            0.58967185,
+            0.5928837,
+            0.5961102,
+            0.5993515,
+            0.6026075,
+            0.60587704,
+            0.6091602,
+            0.6124569,
+            0.6157672,
+            0.61909103,
+            0.6224274,
+            0.6257795,
+            0.62914413,
+            0.63252455,
+            0.63591963,
+            0.63932943,
+            0.64275515,
+            0.64619553,
+            0.6496507,
+            0.65312046,
+            0.6566038,
+            0.66010416,
+            0.6636204,
+            0.66715014,
+            0.67069453,
+            0.6742515,
+            0.6778197,
+            0.68139815,
+            0.6849856,
+            0.6885821,
+            0.69218314,
+            0.695791,
+            0.69940215
         ],
         "zmax": null,
         "line": {
@@ -32781,66 +32781,66 @@ Epoch 100/100 - train loss: 9.0e-6
             "width": 1
         },
         "y": [
-            0.03301799,
-            0.033254422,
-            0.033520304,
-            0.033816706,
-            0.03414594,
-            0.03450908,
-            0.03490844,
-            0.035344012,
-            0.035820294,
-            0.036336176,
-            0.03689055,
-            0.037483357,
-            0.038116902,
-            0.038793463,
-            0.039511837,
-            0.040276613,
-            0.041086655,
-            0.041943096,
-            0.04284701,
-            0.043798465,
-            0.044798568,
-            0.04584732,
-            0.046944715,
-            0.048091896,
-            0.049286585,
-            0.050535582,
-            0.051838852,
-            0.053191945,
-            0.05460045,
-            0.056061022,
-            0.057571344,
-            0.05912693,
-            0.060727775,
-            0.062372714,
-            0.064061806,
-            0.06579499,
-            0.067575715,
-            0.06940284,
-            0.07127973,
-            0.073202975,
-            0.07516358,
-            0.0771604,
-            0.079191126,
-            0.081258066,
-            0.08335899,
-            0.08549267,
-            0.0876569,
-            0.08985283,
-            0.09208042,
-            0.094340846,
-            0.096630655,
-            0.09895102,
-            0.10130193,
-            0.10368793,
-            0.10610786,
-            0.108562835,
-            0.111057445,
-            0.11359049,
-            0.11616768,
-            0.11878672
+            0.8125175,
+            0.8141365,
+            0.8157385,
+            0.81732345,
+            0.8188892,
+            0.82043684,
+            0.8219642,
+            0.8234666,
+            0.8249441,
+            0.82639444,
+            0.82781994,
+            0.82921714,
+            0.8305872,
+            0.83193016,
+            0.8332436,
+            0.8345288,
+            0.83578455,
+            0.8370075,
+            0.8382,
+            0.8393573,
+            0.8404785,
+            0.8415646,
+            0.84261215,
+            0.84362245,
+            0.8445999,
+            0.84554344,
+            0.84645534,
+            0.8473344,
+            0.84817946,
+            0.8489838,
+            0.8497509,
+            0.8504806,
+            0.85117525,
+            0.85183704,
+            0.8524672,
+            0.85306793,
+            0.8536382,
+            0.85417783,
+            0.8546869,
+            0.8551632,
+            0.8556067,
+            0.8560128,
+            0.85638165,
+            0.8567097,
+            0.856996,
+            0.8572369,
+            0.8574338,
+            0.8575899,
+            0.8577053,
+            0.85777766,
+            0.85780597,
+            0.85779244,
+            0.8577336,
+            0.85763174,
+            0.85748583,
+            0.8572946,
+            0.85706156,
+            0.8567844,
+            0.8564631,
+            0.85609996
         ],
         "type": "scatter3d",
         "scene": "scene"
@@ -32853,66 +32853,66 @@ Epoch 100/100 - train loss: 9.0e-6
         "yaxis": "y",
         "zaxis": "z",
         "x": [
-            0.22426909,
-            0.22426909,
-            0.22101049,
-            0.22101049,
-            0.21837805,
-            0.21837805,
-            0.21295464,
-            0.21295464,
-            0.20962182,
-            0.20962182,
-            0.20667805,
-            0.20667805,
-            0.20445876,
-            0.20445876,
-            0.20351563,
-            0.20351563,
-            0.1999948,
-            0.1999948,
-            0.19727857,
-            0.19727857,
-            0.19916317,
-            0.19916317,
-            0.19522159,
-            0.19522159,
-            0.19585125,
-            0.19585125,
-            0.19562264,
-            0.19562264,
-            0.19310567,
-            0.19310567,
-            0.19022757,
-            0.19022757,
-            0.19305919,
-            0.19305919,
-            0.19190688,
-            0.19190688,
-            0.19278188,
-            0.19278188,
-            0.1916033,
-            0.1916033,
-            0.19065873,
-            0.19065873,
-            0.1893775,
-            0.1893775,
-            0.189723,
-            0.189723,
-            0.18862054,
-            0.18862054,
-            0.18693839,
-            0.18693839,
-            0.1891733,
-            0.1891733,
-            0.18621399,
-            0.18621399,
-            0.18496414,
-            0.18496414,
-            0.18383825,
-            0.18383825,
-            0.18147156,
-            0.18147156
+            0.49581054,
+            0.49581054,
+            0.49996093,
+            0.49996093,
+            0.50351465,
+            0.50351465,
+            0.5058791,
+            0.5058791,
+            0.51228124,
+            0.51228124,
+            0.5160203,
+            0.5160203,
+            0.52044994,
+            0.52044994,
+            0.52415735,
+            0.52415735,
+            0.5305277,
+            0.5305277,
+            0.5333349,
+            0.5333349,
+            0.5371468,
+            0.5371468,
+            0.5422207,
+            0.5422207,
+            0.54443556,
+            0.54443556,
+            0.5474492,
+            0.5474492,
+            0.5529539,
+            0.5529539,
+            0.5577221,
+            0.5577221,
+            0.5595204,
+            0.5595204,
+            0.56282324,
+            0.56282324,
+            0.56680435,
+            0.56680435,
+            0.5701235,
+            0.5701235,
+            0.5753794,
+            0.5753794,
+            0.5766893,
+            0.5766893,
+            0.5822428,
+            0.5822428,
+            0.5849907,
+            0.5849907,
+            0.5895185,
+            0.5895185,
+            0.59374577,
+            0.59374577,
+            0.5975359,
+            0.5975359,
+            0.6003054,
+            0.6003054,
+            0.6010606,
+            0.6010606,
+            0.60278755,
+            0.60278755
         ],
         "showlegend": true,
         "mode": "lines",
@@ -32920,66 +32920,66 @@ Epoch 100/100 - train loss: 9.0e-6
         "zmin": null,
         "legendgroup": "reconstructed",
         "z": [
-            0.42761588,
-            0.42761588,
-            0.42142764,
-            0.42142764,
-            0.414672,
-            0.414672,
-            0.4077547,
-            0.4077547,
-            0.4032428,
-            0.4032428,
-            0.39495537,
-            0.39495537,
-            0.38501102,
-            0.38501102,
-            0.38154012,
-            0.38154012,
-            0.37050614,
-            0.37050614,
-            0.36195898,
-            0.36195898,
-            0.35206556,
-            0.35206556,
-            0.34247103,
-            0.34247103,
-            0.33930346,
-            0.33930346,
-            0.3296478,
-            0.3296478,
-            0.32425746,
-            0.32425746,
-            0.3185494,
-            0.3185494,
-            0.31087726,
-            0.31087726,
-            0.30634162,
-            0.30634162,
-            0.29647198,
-            0.29647198,
-            0.2910119,
-            0.2910119,
-            0.28538117,
-            0.28538117,
-            0.27714574,
-            0.27714574,
-            0.27220732,
-            0.27220732,
-            0.26454604,
-            0.26454604,
-            0.2571628,
-            0.2571628,
-            0.25503623,
-            0.25503623,
-            0.24788219,
-            0.24788219,
-            0.24347827,
-            0.24347827,
-            0.2373878,
-            0.2373878,
-            0.23509714,
-            0.23509714
+            0.5108076,
+            0.5108076,
+            0.51598465,
+            0.51598465,
+            0.5226465,
+            0.5226465,
+            0.5291229,
+            0.5291229,
+            0.53573924,
+            0.53573924,
+            0.5419467,
+            0.5419467,
+            0.54794216,
+            0.54794216,
+            0.5560633,
+            0.5560633,
+            0.5612998,
+            0.5612998,
+            0.5671219,
+            0.5671219,
+            0.5744838,
+            0.5744838,
+            0.57888836,
+            0.57888836,
+            0.5855305,
+            0.5855305,
+            0.59010357,
+            0.59010357,
+            0.59722817,
+            0.59722817,
+            0.6066247,
+            0.6066247,
+            0.6108539,
+            0.6108539,
+            0.6178147,
+            0.6178147,
+            0.6223951,
+            0.6223951,
+            0.6323778,
+            0.6323778,
+            0.6370828,
+            0.6370828,
+            0.6446079,
+            0.6446079,
+            0.6510136,
+            0.6510136,
+            0.65702474,
+            0.65702474,
+            0.6645438,
+            0.6645438,
+            0.671996,
+            0.671996,
+            0.6771762,
+            0.6771762,
+            0.68545455,
+            0.68545455,
+            0.69264656,
+            0.69264656,
+            0.6968229,
+            0.6968229
         ],
         "zmax": null,
         "line": {
@@ -32989,66 +32989,66 @@ Epoch 100/100 - train loss: 9.0e-6
             "width": 1
         },
         "y": [
-            0.029821316,
-            0.029821316,
-            0.033482995,
-            0.033482995,
-            0.035803992,
-            0.035803992,
-            0.035157874,
-            0.035157874,
-            0.03582931,
-            0.03582931,
-            0.037857536,
-            0.037857536,
-            0.039967924,
-            0.039967924,
-            0.044150665,
-            0.044150665,
-            0.041441128,
-            0.041441128,
-            0.041592326,
-            0.041592326,
-            0.045980413,
-            0.045980413,
-            0.04628012,
-            0.04628012,
-            0.04787953,
-            0.04787953,
-            0.05597003,
-            0.05597003,
-            0.059189167,
-            0.059189167,
-            0.060124468,
-            0.060124468,
-            0.06054582,
-            0.06054582,
-            0.06406008,
-            0.06406008,
-            0.068200365,
-            0.068200365,
-            0.07295649,
-            0.07295649,
-            0.079005465,
-            0.079005465,
-            0.08296166,
-            0.08296166,
-            0.09080258,
-            0.09080258,
-            0.08968097,
-            0.08968097,
-            0.09262703,
-            0.09262703,
-            0.096164465,
-            0.096164465,
-            0.10211682,
-            0.10211682,
-            0.107883394,
-            0.107883394,
-            0.11316696,
-            0.11316696,
-            0.11815925,
-            0.11815925
+            0.8134371,
+            0.8134371,
+            0.8135556,
+            0.8135556,
+            0.81930345,
+            0.81930345,
+            0.82250935,
+            0.82250935,
+            0.82303053,
+            0.82303053,
+            0.8259464,
+            0.8259464,
+            0.82895035,
+            0.82895035,
+            0.83139384,
+            0.83139384,
+            0.8332707,
+            0.8332707,
+            0.8374936,
+            0.8374936,
+            0.83912253,
+            0.83912253,
+            0.8414493,
+            0.8414493,
+            0.84305376,
+            0.84305376,
+            0.84647346,
+            0.84647346,
+            0.8469034,
+            0.8469034,
+            0.84794885,
+            0.84794885,
+            0.8506266,
+            0.8506266,
+            0.851252,
+            0.851252,
+            0.85178375,
+            0.85178375,
+            0.8533938,
+            0.8533938,
+            0.8556731,
+            0.8556731,
+            0.8556849,
+            0.8556849,
+            0.8555404,
+            0.8555404,
+            0.8558914,
+            0.8558914,
+            0.8554445,
+            0.8554445,
+            0.85421693,
+            0.85421693,
+            0.8553783,
+            0.8553783,
+            0.855596,
+            0.855596,
+            0.85471857,
+            0.85471857,
+            0.8529759,
+            0.8529759
         ],
         "type": "scatter3d",
         "scene": "scene"
@@ -33088,22 +33088,24 @@ Epoch 100/100 - train loss: 9.0e-6
             "visible": true,
             "ticks": "inside",
             "range": [
-                0.18018763035535812,
-                0.22555301815271378
+                0.48956391125917437,
+                0.6066824206709862
             ],
             "tickmode": "array",
             "tickvals": [
-                0.19,
-                0.2,
-                0.21,
-                0.22
+                0.5,
+                0.525,
+                0.55,
+                0.5750000000000001,
+                0.6000000000000001
             ],
             "tickcolor": "rgb(0, 0, 0)",
             "ticktext": [
-                "0.19",
-                "0.20",
-                "0.21",
-                "0.22"
+                "0.500",
+                "0.525",
+                "0.550",
+                "0.575",
+                "0.600"
             ],
             "linecolor": "rgba(0, 0, 0, 1.000)",
             "showgrid": true,
@@ -33142,24 +33144,22 @@ Epoch 100/100 - train loss: 9.0e-6
             "visible": true,
             "ticks": "inside",
             "range": [
-                0.027152353581041098,
-                0.12145568462088704
+                0.8111588704586029,
+                0.8591646206378937
             ],
             "tickmode": "array",
             "tickvals": [
-                0.04,
-                0.06,
-                0.08,
-                0.1,
-                0.12
+                0.8200000000000001,
+                0.8300000000000001,
+                0.84,
+                0.85
             ],
             "tickcolor": "rgb(0, 0, 0)",
             "ticktext": [
-                "0.04",
-                "0.06",
-                "0.08",
-                "0.10",
-                "0.12"
+                "0.82",
+                "0.83",
+                "0.84",
+                "0.85"
             ],
             "linecolor": "rgba(0, 0, 0, 1.000)",
             "showgrid": true,
@@ -33188,22 +33188,22 @@ Epoch 100/100 - train loss: 9.0e-6
             "visible": true,
             "ticks": "inside",
             "range": [
-                0.2217700944840908,
-                0.4371390624344349
+                0.503278729915619,
+                0.7051144862174987
             ],
             "tickmode": "array",
             "tickvals": [
-                0.25,
-                0.30000000000000004,
-                0.35000000000000003,
-                0.4
+                0.55,
+                0.6000000000000001,
+                0.65,
+                0.7000000000000001
             ],
             "tickcolor": "rgb(0, 0, 0)",
             "ticktext": [
-                "0.25",
-                "0.30",
-                "0.35",
-                "0.40"
+                "0.55",
+                "0.60",
+                "0.65",
+                "0.70"
             ],
             "linecolor": "rgba(0, 0, 0, 1.000)",
             "showgrid": true,
@@ -33281,8 +33281,8 @@ Epoch 100/100 - train loss: 9.0e-6
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>┌ Info: loss:
-│   loss(input, output) = 7.827467e-6
-└ @ Main In[26]:2
+│   loss(input, output) = 6.8336926e-6
+└ @ Main In[14]:2
 </pre>
 </div>
 </div>
@@ -33296,15 +33296,19 @@ Epoch 100/100 - train loss: 9.0e-6
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Conclusion">
+<h3 id="Conclusion">
 <a class="anchor" href="#Conclusion" aria-hidden="true"><span class="octicon octicon-link"></span></a>Conclusion<a class="anchor-link" href="#Conclusion"> </a>
-</h1>
+</h3>
 <p>This approach clearly is able to reconstruct the input data from a low dimensional representation. Before we go further (and use clustering on the latent space to identify parameters), lets try and scale this up to a 300 agent swarm and see what changes we need to make.</p>
 
 </div>
 </div>
 </div>
 </div>
+
+<script type="application/vnd.jupyter.widget-state+json">
+{"state": {}, "version_major": 2, "version_minor": 0}
+</script>
 
 
 
@@ -33316,7 +33320,7 @@ Epoch 100/100 - train loss: 9.0e-6
         theme="github-light"
         crossorigin="anonymous"
         async>
-</script><a class="u-url" href="/blog/dimension%20reduction/auto-encoder/swarm/2022/01/21/_01_14_DCAE_Part_2.html" hidden></a>
+</script><a class="u-url" href="/blog/dimension%20reduction/auto-encoder/swarm/2021/01/23/DCAE-Part-1.html" hidden></a>
 </article>
 
       </div>
