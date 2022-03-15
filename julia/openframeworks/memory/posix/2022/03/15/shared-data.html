@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Sharing matrix data between OpenFrameworks and Julia | Max Worgan’s PhD research blog</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Sharing matrix data between OpenFrameworks and Julia" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Using the POSIX shared memory API to allow shared access to swarm data" />
+<meta property="og:description" content="Using the POSIX shared memory API to allow shared access to swarm data" />
+<link rel="canonical" href="https://maxworgan.github.io/blog/julia/openframeworks/memory/posix/2022/03/15/shared-data.html" />
+<meta property="og:url" content="https://maxworgan.github.io/blog/julia/openframeworks/memory/posix/2022/03/15/shared-data.html" />
+<meta property="og:site_name" content="Max Worgan’s PhD research blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-03-15T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Sharing matrix data between OpenFrameworks and Julia" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-03-15T00:00:00-05:00","datePublished":"2022-03-15T00:00:00-05:00","description":"Using the POSIX shared memory API to allow shared access to swarm data","headline":"Sharing matrix data between OpenFrameworks and Julia","mainEntityOfPage":{"@type":"WebPage","@id":"https://maxworgan.github.io/blog/julia/openframeworks/memory/posix/2022/03/15/shared-data.html"},"url":"https://maxworgan.github.io/blog/julia/openframeworks/memory/posix/2022/03/15/shared-data.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://maxworgan.github.io/blog/feed.xml" title="Max Worgan's PhD research blog" /><link rel="shortcut icon" type="image/x-icon" href="/blog/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+
+
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">Max Worgan&#39;s PhD research blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog/about/">about</a><a class="page-link" href="/blog/search/">Search</a><a class="page-link" href="/blog/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Sharing matrix data between OpenFrameworks and Julia</h1><p class="page-description">Using the POSIX shared memory API to allow shared access to swarm data</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-03-15T00:00:00-05:00" itemprop="datePublished">
+        Mar 15, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      4 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/blog/categories/#Julia">Julia</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#OpenFrameworks">OpenFrameworks</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#Memory">Memory</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#POSIX">POSIX</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h1"><a href="#the-problem">The problem</a></li>
+<li class="toc-entry toc-h1"><a href="#shared-memory">Shared Memory</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#posix-shared-memory">POSIX shared memory</a></li>
+<li class="toc-entry toc-h2"><a href="#posix-mutex">POSIX Mutex</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#openframeworks">OpenFrameworks</a></li>
+<li class="toc-entry toc-h1"><a href="#julia">Julia</a></li>
+</ul><h1 id="the-problem">
+<a class="anchor" href="#the-problem" aria-hidden="true"><span class="octicon octicon-link"></span></a>The problem</h1>
+
+<p>My current project incorporates a swarming simulation written in C++ using the <a href="http://openframeworks.cc">OpenFrameworks</a> toolkit. All my machine learning research has been written in <a href="https://julialang.org/">Julia</a>. Since I require real-time analysis of the swarm data, I need to send data from my simulation into julia for processing. There are a number of ways to go about this:</p>
+
+<ol>
+  <li>Network based data exchange options:
+    <ul>
+      <li>Something like <a href="https://en.wikipedia.org/wiki/Open_Sound_Control">Open Sound Control</a> which is commonly used for musical data exchange although not typically intended for large quantities of data. Also it is UDP based, so depending on network configuration/stability data could be lost.</li>
+      <li>A custom data exchange protocol - quite a lot of implementation/testing testing time involved.</li>
+      <li>Any network based approach would require serialization/de-serialization which is likely to make it prohibitively costly given the quantity of data we are attempting to transmit.</li>
+    </ul>
+  </li>
+  <li>A shared data file
+    <ul>
+      <li>Would require the simulation to write to a file, while julia reads from the file. Synchronization mechanism would be needed. Seems wasteful.</li>
+    </ul>
+  </li>
+  <li>IPC (Inter Process Communication) e.g. Shared memory
+    <ul>
+      <li>If the raw data from the simulation could be shared with the Julia process via a shared memory address then it would be a very efficient, since no serialization, disk IO, or network IO, would be required. Synchronization would still need to be managed to avoid threading issues.</li>
+    </ul>
+  </li>
+</ol>
+
+<h1 id="shared-memory">
+<a class="anchor" href="#shared-memory" aria-hidden="true"><span class="octicon octicon-link"></span></a>Shared Memory</h1>
+<p>There are two commonly used methods for directly sharing memory between two processes: <a href="https://man7.org/linux/man-pages/man7/sysvipc.7.html">System V’s IPC mechanisms</a>, which includes shared memory, and <a href="https://man7.org/linux/man-pages/man7/shm_overview.7.html">POSIX shared memory</a>.</p>
+
+<p>System V’s implementation is more fully featured but deprecated, so we will consider the POSIX implementation only.</p>
+
+<h2 id="posix-shared-memory">
+<a class="anchor" href="#posix-shared-memory" aria-hidden="true"><span class="octicon octicon-link"></span></a>POSIX shared memory</h2>
+
+<p>The primary function for creating shared memory is via the <a href="https://man7.org/linux/man-pages/man3/shm_open.3.html">shm_open</a> call:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">shm_open</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">name</span><span class="p">,</span> <span class="kt">int</span> <span class="n">flags</span><span class="p">,</span>  <span class="n">mode_t</span> <span class="n">mode</span><span class="p">);</span>
+</code></pre></div></div>
+<p>This creates a new (or opens and existing) shared memory object and returns a file descriptor. In the case of of it creating a new shared memory object, it will have a default size of 0 bytes. The call <a href="https://man7.org/linux/man-pages/man3/ftruncate.3p.html">ftruncate</a> can be used to set the appropriate size of the shared memory object:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">ftruncate</span><span class="p">(</span><span class="kt">int</span> <span class="n">file_descriptor</span><span class="p">,</span> <span class="kt">off_t</span> <span class="n">memory_size</span><span class="p">);</span>
+</code></pre></div></div>
+<p>This simply returns 0 on success and -1 otherwise.</p>
+
+<p>Once the shared memory object has been setup and initialized then the data needs to be mapped into this address space using the call <a href="https://man7.org/linux/man-pages/man2/mmap.2.html">mmap</a></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void* mmap(void *addr, size_t memory_size, int prot, int flags, int fd, off_t offset);
+</code></pre></div></div>
+<p>In our case the <code class="language-plaintext highlighter-rouge">address</code> parameter is simply set to <code class="language-plaintext highlighter-rouge">NULL</code> since we don’t care where the kernel uses memory from. The <code class="language-plaintext highlighter-rouge">prot</code> argument describes the desired memory protection of the mapping, whether it can be read, written executed. The <code class="language-plaintext highlighter-rouge">flags</code> argument specifies (among other things) if this mapping is shared across processes, or is private. In our case we set it to <code class="language-plaintext highlighter-rouge">MAP_SHARED</code>. <code class="language-plaintext highlighter-rouge">fd</code> is the file descriptor of the shared memory object, and <code class="language-plaintext highlighter-rouge">offset</code> is unused in our case.</p>
+
+<p>There are also the calls <a href="https://man7.org/linux/man-pages/man2/mmap.2.html">munmap</a> and <a href="https://man7.org/linux/man-pages/man3/shm_unlink.3p.html">shm_unlink</a> used to clean up allocated resources.</p>
+
+<h2 id="posix-mutex">
+<a class="anchor" href="#posix-mutex" aria-hidden="true"><span class="octicon octicon-link"></span></a>POSIX Mutex</h2>
+<p>Since the simulation will be writing to the shared memory and the julia process will be reading concurrently, we still need to synchronise their access to the shared memory object. For this the POSIX thread library provides an implementation of a mutex.</p>
+
+<p>For a general overview I found this website helpful: 
+https://riptutorial.com/posix/example/15910/simple-mutex-usage</p>
+
+<p>One additional implementation detail is that we’re going to use shared memory again to store this mutex, meaning that both the simulation and
+ the julia process can use it. This means more calls to <code class="language-plaintext highlighter-rouge">shm_open</code>, <code class="language-plaintext highlighter-rouge">ftruncate</code> and <code class="language-plaintext highlighter-rouge">mmap</code>.</p>
+
+<p>This is in addition to the usual POSIX mutex initialisation, including:</p>
+
+<ul>
+  <li>
+    <p><a href="https://man7.org/linux/man-pages/man3/pthread_mutex_init.3p.html">pthread_mutex_init</a></p>
+  </li>
+  <li>
+    <p><a href="https://man7.org/linux/man-pages/man3/pthread_mutexattr_getpshared.3.html">pthread_mutexattr_setpshared</a></p>
+  </li>
+</ul>
+
+<h1 id="openframeworks">
+<a class="anchor" href="#openframeworks" aria-hidden="true"><span class="octicon octicon-link"></span></a>OpenFrameworks</h1>
+<p>Since OpenFrameworks is written in C++, the POSIX shared memory API and POSIX threads interfaces are easily accessible, at least on Linux/OSX.</p>
+
+<p>To make matters even more straightforward I found an OpenFrameworks addon <a href="https://github.com/trentbrooks/ofxSharedMemory">ofxSharedMemory</a> which implements the POSIX shared memory part. I adapted this implementation for my use by including the pthreads logic to syncronise the access to the shared memory.</p>
+
+<h1 id="julia">
+<a class="anchor" href="#julia" aria-hidden="true"><span class="octicon octicon-link"></span></a>Julia</h1>
+<p>Julia has easy C/C++ interop through the <a href="https://docs.julialang.org/en/v1/base/c/#ccall"><code class="language-plaintext highlighter-rouge">ccall</code></a> function making the implementation fairly potentially straightforward.</p>
+
+<p>Helpfully I found the <a href="https://github.com/emmt/InterProcessCommunication.jl">InterProcessCommunicaltion.jl</a> package which not only provided the shared memory implementation, but also a mutex implementation. There were however, issues on my OSX system with calls to deprecated and missing libraries. However, fairly minor changes allowed me to use this package, including their <a href="https://emmt.github.io/InterProcessCommunication.jl/dev/reference/#Wrapped-arrays-1">WrappedArrays</a> datatype, which made coercing the shared data into a Matrix structure utterly painless.</p>
+
+<p>Full code will be available  on <a href="http://github.com/MaxWorgan">my Github</a> soon!</p>
+
+  </div><a class="u-url" href="/blog/julia/openframeworks/memory/posix/2022/03/15/shared-data.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/blog/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/blog/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>A place to hold research and notebooks</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/MaxWorgan" target="_blank" title="MaxWorgan"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/mhax" target="_blank" title="mhax"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
